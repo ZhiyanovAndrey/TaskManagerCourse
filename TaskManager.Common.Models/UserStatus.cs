@@ -1,4 +1,4 @@
-﻿namespace TaskManagerCourse.Api.Models
+﻿namespace TaskManager.Common.Models
 {
     public enum UserStatus
     {

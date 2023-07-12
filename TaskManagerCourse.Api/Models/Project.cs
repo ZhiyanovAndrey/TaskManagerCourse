@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public List<User> AllUsers { get; set; } = new List<User>();
+        public List<User> AllUsers { get; set; } = new List<User>(); // многие ко многим с User
 
         public List<Desk> AllDecks { get; set; } = new List<Desk>(); // приватная доска для пользователя
 

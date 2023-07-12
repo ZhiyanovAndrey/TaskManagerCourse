@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
+using TaskManager.Common.Models;
 
 namespace TaskManagerCourse.Api.Models.Data
 {
-    public class AplicationContext : DbContext
+    public class ApplicationContext : DbContext
     {
         public DbSet<User> Users { get; set; } // прописываем каждый класс для связи
         public DbSet<ProjectAdmin> ProjectAdmins { get; set; }
@@ -13,7 +14,7 @@ namespace TaskManagerCourse.Api.Models.Data
         public DbSet<Task> Tasks { get; set; }
 
         // принимает опции передадим их в базовый класс 
-        public AplicationContext(DbContextOptions<AplicationContext> options) : base(options) 
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) 
         {
             Database.EnsureCreated(); // убедиться что БД создана
 
@@ -30,7 +31,7 @@ namespace TaskManagerCourse.Api.Models.Data
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
-        optionsBuilder.UseNpgsql(Iconfiguration.GetConnectionString("DefaultConnection"));
+        //optionsBuilder.UseNpgsql(Iconfiguration.GetConnectionString("DefaultConnection"));
         //    optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=TaskManager;Username=postgres;Password=User1234")
         //        //.LogTo(Console.WriteLine) // можно подсмотреть сформированный EF запрос
         //        ;
