@@ -200,26 +200,26 @@ namespace TaskManagerCourse.Api.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("LastLoginDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime?>("LastLoginDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime?>("RegistrationDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");

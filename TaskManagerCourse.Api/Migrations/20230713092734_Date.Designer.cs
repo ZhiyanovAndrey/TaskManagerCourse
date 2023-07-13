@@ -12,8 +12,8 @@ using TaskManagerCourse.Api.Models.Data;
 namespace TaskManagerCourse.Api.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230626151511_withOutPhoto")]
-    partial class withOutPhoto
+    [Migration("20230713092734_Date")]
+    partial class Date
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -203,26 +203,26 @@ namespace TaskManagerCourse.Api.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("LastLoginDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime?>("LastLoginDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime?>("RegistrationDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");

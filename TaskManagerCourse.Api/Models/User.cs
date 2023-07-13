@@ -1,4 +1,6 @@
-﻿using TaskManager.Common.Models;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
+using TaskManager.Common.Models;
 
 namespace TaskManagerCourse.Api.Models
 {
@@ -10,17 +12,18 @@ namespace TaskManagerCourse.Api.Models
 
         public string Name { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
+        public string? Password { get; set; }
 
-        public string Password { get; set; }
+        public string? Phone { get; set; }
 
-        public string Phone { get; set; }
+        [Column(TypeName = "date")] // Чтобы в базе данных был тип только date без time
+        public DateTime? RegistrationDate { get; set; }
 
-        public DateTime RegistrationDate { get; set; }
+        [Column(TypeName = "date")] // Чтобы в базе данных был тип только date без time
+        public DateTime? LastLoginDate { get; set; }
 
-        public DateTime LastLoginDate { get; set; }
-
-        public byte[] Photo { get; set; } // массив byte
+        public byte[]? Photo { get; set; } // массив byte
 
         public UserStatus Status { get; set; }
 
