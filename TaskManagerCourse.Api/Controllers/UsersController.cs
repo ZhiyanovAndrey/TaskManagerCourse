@@ -72,7 +72,7 @@ namespace TaskManagerCourse.Api.Controllers
         }
 
         // получаем id User из URL
-        [HttpPatch("delete/{id}")]
+        [HttpDelete("delete/{id}")]
         // запрос на удаление User 
         public IActionResult DeleteUser(int id)
         {
@@ -87,9 +87,25 @@ namespace TaskManagerCourse.Api.Controllers
         }
 
         // возвращаем весь список из UserModel
+        // не указываем ни чего в скобках и [HttpGet] тоже можно не писать
+        [HttpGet]
         public async Task<IEnumerable<UserModel>> GetUsers() // меняем IEnumerable на Task для использования ToListAsync() вместо ToList()
         {
             return await _db.Users.Select(u => u.ToDto()).ToListAsync();    
         }
+
+        // запрос на массовое добавление
+        [HttpPost("create/all")]
+        public async Task<IActionResult> CreateMultipleUsers([FromBody] List<UserModel> userModels) // 
+        {
+            if (userModels != null && userModels.Count>0)
+            {
+                var newUsers = userModels.Select(u => new User(u)); // для UserModel нет конструктора создадим его в Users
+                _db.Users.AddRange(newUsers);
+                await _db.SaveChangesAsync(); // в этом месте будет выполняться асинхронно
+                return Ok();
+            }
+            return BadRequest(userModels);
+        }
     }
-}
+}   

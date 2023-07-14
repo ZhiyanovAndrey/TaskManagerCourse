@@ -29,15 +29,5 @@ namespace TaskManagerCourse.Api.Models.Data
         }
 
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //optionsBuilder.UseNpgsql(Iconfiguration.GetConnectionString("DefaultConnection"));
-        //    optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=TaskManager;Username=postgres;Password=User1234")
-        //        //.LogTo(Console.WriteLine) // можно подсмотреть сформированный EF запрос
-        //        ;
-        //    /*Строка подключения содержит адрес сервера (параметр Host), порт (Port), 
-        //     * название базы данных на сервере (StaffManager),
-        //     * имя пользователя в рамках сервера PostgreSQL (Username) и его пароль (Password).*/
-        //}
     }
 }

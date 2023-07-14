@@ -12,13 +12,13 @@ namespace TaskManagerCourse.Api.Models
 
         public string Name { get; set; }
 
-        public string? Email { get; set; }
-        public string? Password { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
 
-        public string? Phone { get; set; }
+        public string Phone { get; set; }
 
-        [Column(TypeName = "date")] // Чтобы в базе данных был тип только date без time
-        public DateTime? RegistrationDate { get; set; }
+        [Column(TypeName = "date")] // если вместе с time то ошибка 
+        public DateTime RegistrationDate { get; set; }
 
         [Column(TypeName = "date")] // Чтобы в базе данных был тип только date без time
         public DateTime? LastLoginDate { get; set; }
@@ -38,10 +38,10 @@ namespace TaskManagerCourse.Api.Models
 
         public User() { }
 
-        // конструктор, чтобы сразу задать пользователяб статус задан по умолчанию
 
+        // конструктор, чтобы сразу задать пользователя статус задан по умолчанию
         public User(string sname, string name, string email, string pass, string phone = null,
-            UserStatus status = UserStatus.User, byte[] photo = null)
+    UserStatus status = UserStatus.User, byte[] photo = null)
         {
             Surname = sname;
             Name = name;
@@ -52,6 +52,20 @@ namespace TaskManagerCourse.Api.Models
             Photo = photo;
             RegistrationDate = DateTime.Now;
 
+        }
+
+        public User (UserModel model)
+        {
+           
+                Surname = model.Surname;
+                Name = model.Name;
+                Email = model.Email;
+                Password = model.Password;
+                Phone = model.Phone;
+                Status = model.Status;
+                Photo = model.Photo;
+                RegistrationDate = model.RegistrationDate;
+            
         }
 
         // применим патерн DTO
