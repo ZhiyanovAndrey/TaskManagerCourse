@@ -4,86 +4,69 @@ using Microsoft.EntityFrameworkCore;
 using TaskManager.Common.Models;
 using TaskManagerCourse.Api.Models;
 using TaskManagerCourse.Api.Models.Data;
+using TaskManagerCourse.Api.Models.Services;
 
 namespace TaskManagerCourse.Api.Controllers
 {
     // api указывается сразу после http://localhost:5171/
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // атрибут указывает как мы будем обращаться с Фронта api/users название первой части от контроллера 
     [ApiController]
     public class UsersController : ControllerBase
     {
         // API для получения создания и удаления пользователя
         private readonly ApplicationContext _db;
+        private readonly UserService _userService;
 
         public UsersController(ApplicationContext db)
         {
             _db = db;
+            _userService= new UserService(db);
+
         }
         // тестовый запрос строка
         [HttpGet("test")]
         public IActionResult Test()
         {
-            return Ok("Привет!");
+            string t = $"";
+            return Ok($"Привет! Сервер запущен {DateTime.Now.ToString("D")} в {DateTime.Now.ToString("t")}");
         }
 
         // запрос на создание User 
-        [HttpPost("create")]
+        [HttpPost]
         public IActionResult CreateUser([FromBody] UserModel userModel)
         {
             if (userModel != null)
             {
                 // получим User из фронта UserModel
-                User newUser = new User(userModel.Surname, userModel.Name, userModel.Email,
-                    userModel.Password, userModel.Phone, userModel.Status, userModel.Photo);
-                _db.Users.Add(newUser);
-                _db.SaveChanges();
-                return Ok();
+                bool result = _userService.Create(userModel);
+                return result ? Ok():NotFound();
             }
             return BadRequest();
         }
 
         // получаем id User из URL
-        [HttpPatch("update/{id}")]
+        [HttpPatch("{id}")]
         // запрос на изменение User 
         public IActionResult UpdateUser(int id, [FromBody] UserModel userModel)
         {
             if (userModel != null)
             {
-                // получим User из фронта UserModel обновить и перезаписать
-                User userForUpdate = _db.Users.FirstOrDefault(u => u.Id == id);
-                if (userForUpdate != null)
-                {
-                    userForUpdate.Surname = userModel.Surname;
-                    userForUpdate.Name = userModel.Name;
-                    userForUpdate.Email = userModel.Email;
-                    userForUpdate.Password = userModel.Password;
-                    userForUpdate.Phone = userModel.Phone;
-                    userForUpdate.Status = userModel.Status;
-                    userForUpdate.Photo = userModel.Photo;
-
-                    _db.Users.Update(userForUpdate);
-                    _db.SaveChanges();
-                    return Ok();
-                }
-
-                return NotFound();
+               // обращение к БД вынесли в UserService, проверку на null можно вынести или оставить
+                bool result = _userService.Update(id, userModel);
+                return result ? Ok() : NotFound();
             }
             return BadRequest();
         }
 
         // получаем id User из URL
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         // запрос на удаление User 
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeleteUser(int id) // может не принимать модель, а только id
         {
-            User user = _db.Users.FirstOrDefault(u => u.Id == id);
-            if (user != null)
-            {
-                _db.Users.Remove(user);
-                _db.SaveChanges();
-                return Ok();
-            }
-            return NotFound();
+            // обращение к БД вынесли в UserService, а сдесь обращаемся к _userService
+            bool result = _userService.Delete(id);
+            return result ? Ok() : NotFound();
+            
         }
 
         // возвращаем весь список из UserModel
@@ -98,12 +81,12 @@ namespace TaskManagerCourse.Api.Controllers
         [HttpPost("create/all")]
         public async Task<IActionResult> CreateMultipleUsers([FromBody] List<UserModel> userModels) // 
         {
+            // проверку на null не обязательно выносить в UserService можно оставить
+            // верхнеуровневые проверки лучше выносить на верх
             if (userModels != null && userModels.Count>0)
             {
-                var newUsers = userModels.Select(u => new User(u)); // для UserModel нет конструктора создадим его в Users
-                _db.Users.AddRange(newUsers);
-                await _db.SaveChangesAsync(); // в этом месте будет выполняться асинхронно
-                return Ok();
+                bool result = _userService.CreateMultipleUsers(userModels);
+                return result ? Ok() : NotFound();
             }
             return BadRequest(userModels);
         }
