@@ -9,27 +9,26 @@ namespace TaskManagerCourse.Api.Models.Services
     {
         private readonly ApplicationContext _db;
 
+
         public UserService(ApplicationContext db)
         {
             _db = db;
+
         }
 
         public bool Create(UserModel model)
         {
-            try
+
+
+            return DoAction(delegate ()
             {
                 // получим User из фронта UserModel обновить и перезаписать
                 User newUser = new User(model.Surname, model.Name, model.Email,
          model.Password, model.Phone, model.Status, model.Photo);
                 _db.Users.Add(newUser);
                 _db.SaveChanges();
-                return true;
 
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            });
         }
 
         public bool Delete(int id)
@@ -37,19 +36,13 @@ namespace TaskManagerCourse.Api.Models.Services
             User user = _db.Users.FirstOrDefault(u => u.Id == id);
             if (user != null)
             {
-                try
+                return DoAction(delegate ()
                 {
                     _db.Users.Remove(user);
                     _db.SaveChanges();
-                    return true;
 
-                }
+                });
 
-                catch (Exception)
-                {
-
-                    return false;
-                }
             }
             return false;
         }
@@ -59,7 +52,7 @@ namespace TaskManagerCourse.Api.Models.Services
             User userForUpdate = _db.Users.FirstOrDefault(u => u.Id == id);
             if (userForUpdate != null)
             {
-                try
+                return DoAction(delegate ()
                 {
                     userForUpdate.Surname = model.Surname;
                     userForUpdate.Name = model.Name;
@@ -71,34 +64,42 @@ namespace TaskManagerCourse.Api.Models.Services
 
                     _db.Users.Update(userForUpdate);
                     _db.SaveChanges();
-                    return true;
 
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
+                });
             }
             return false;
+
         }
 
         public bool CreateMultipleUsers([FromBody] List<UserModel> userModels) // 
         {
 
-            try
+
+            return DoAction(delegate ()
             {
                 var newUsers = userModels.Select(u => new User(u)); // для UserModel нет конструктора создадим его в Users
                 _db.Users.AddRange(newUsers);
                 _db.SaveChanges();
-                return true;
 
+            });
+
+
+
+        }
+
+        // что бы не повторять try
+        private bool DoAction(Action action)
+        {
+            try
+            {
+                action.Invoke();
+                return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return false;
             }
-
         }
 
     }

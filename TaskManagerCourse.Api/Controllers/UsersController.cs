@@ -39,7 +39,7 @@ namespace TaskManagerCourse.Api.Controllers
             {
                 // получим User из фронта UserModel
                 bool result = _userService.Create(userModel);
-                return result ? Ok():NotFound();
+                return result ? Ok() : NotFound();
             }
             return BadRequest();
         }
@@ -78,7 +78,7 @@ namespace TaskManagerCourse.Api.Controllers
         }
 
         // запрос на массовое добавление
-        [HttpPost("create/all")]
+        [HttpPost("all")]
         public async Task<IActionResult> CreateMultipleUsers([FromBody] List<UserModel> userModels) // 
         {
             // проверку на null не обязательно выносить в UserService можно оставить
