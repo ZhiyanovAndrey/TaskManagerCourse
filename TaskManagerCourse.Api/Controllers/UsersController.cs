@@ -15,12 +15,12 @@ namespace TaskManagerCourse.Api.Controllers
     {
         // API для получения создания и удаления пользователя
         private readonly ApplicationContext _db;
-        private readonly UserService _userService;
+        private readonly UsersService _usersService;
 
         public UsersController(ApplicationContext db)
         {
             _db = db;
-            _userService= new UserService(db);
+            _usersService= new UsersService(db);
 
         }
         // тестовый запрос строка
@@ -33,12 +33,12 @@ namespace TaskManagerCourse.Api.Controllers
 
         // запрос на создание User 
         [HttpPost]
-        public IActionResult CreateUser([FromBody] UserModel userModel)
+        public IActionResult CreateUser([FromBody] UserModel userModel // UserModel получаем из тела запроса
         {
             if (userModel != null)
             {
                 // получим User из фронта UserModel
-                bool result = _userService.Create(userModel);
+                bool result = _usersService.Create(userModel);
                 return result ? Ok() : NotFound();
             }
             return BadRequest();
@@ -52,7 +52,7 @@ namespace TaskManagerCourse.Api.Controllers
             if (userModel != null)
             {
                // обращение к БД вынесли в UserService, проверку на null можно вынести или оставить
-                bool result = _userService.Update(id, userModel);
+                bool result = _usersService.Update(id, userModel);
                 return result ? Ok() : NotFound();
             }
             return BadRequest();
@@ -64,7 +64,7 @@ namespace TaskManagerCourse.Api.Controllers
         public IActionResult DeleteUser(int id) // может не принимать модель, а только id
         {
             // обращение к БД вынесли в UserService, а сдесь обращаемся к _userService
-            bool result = _userService.Delete(id);
+            bool result = _usersService.Delete(id);
             return result ? Ok() : NotFound();
             
         }
@@ -85,7 +85,7 @@ namespace TaskManagerCourse.Api.Controllers
             // верхнеуровневые проверки лучше выносить на верх
             if (userModels != null && userModels.Count>0)
             {
-                bool result = _userService.CreateMultipleUsers(userModels);
+                bool result = _usersService.CreateMultipleUsers(userModels);
                 return result ? Ok() : NotFound();
             }
             return BadRequest(userModels);

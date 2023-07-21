@@ -5,12 +5,12 @@ using TaskManagerCourse.Api.Models.Data;
 
 namespace TaskManagerCourse.Api.Models.Services
 {
-    public class UserService : ICommonServiсe<UserModel>
+    public class UsersService : ICommonServiсe<UserModel>
     {
         private readonly ApplicationContext _db;
 
-
-        public UserService(ApplicationContext db)
+        // конструктор класса
+        public UsersService(ApplicationContext db)
         {
             _db = db;
 
@@ -87,12 +87,17 @@ namespace TaskManagerCourse.Api.Models.Services
 
         }
 
-        // что бы не повторять try
+        /* что бы не повторять try
+         * метод выполняет какое то действие внутри try cach, возвращает bool
+         * передаем в него делегат Action и выполняем его в теле try
+         * 
+         */
+
         private bool DoAction(Action action)
         {
             try
             {
-                action.Invoke();
+                action.Invoke(); // вызываем методы сообщенные с делегатом
                 return true;
             }
             catch (Exception ex)
