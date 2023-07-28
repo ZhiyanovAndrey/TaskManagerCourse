@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Text;
 using TaskManager.Common.Models;
 using TaskManagerCourse.Api.Abstractions;
 using TaskManagerCourse.Api.Models.Data;
@@ -15,6 +17,38 @@ namespace TaskManagerCourse.Api.Models.Services
             _db = db;
 
         }
+
+        // метод 
+        /// <summary>
+        /// метод получает Логин и Пароль возвращает кортэж (двойной компонент)
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Tuple <string,string> GetUserLoginPassFromBasicAuth(HttpRequest request)
+        {
+            string userLogin = "";
+            string userPass = "";
+            string authHeader = request.Headers["Authorization"].ToString(); // dictionary поэтому делаем проверку по ключу
+            //if (authHeader!=null && authHeader.StartsWith("Basic)")) // базовая передача
+            //{
+                string encodedUserNamePass = authHeader.Replace("Basic ", ""); // оставляем данные только логин и пароль без Basic
+                var encoding = Encoding.GetEncoding("iso-8859-1");
+                string[] namePassArr = encoding.GetString(Convert.FromBase64String(encodedUserNamePass)).Split(":");
+                userLogin= namePassArr[0];
+                userPass= namePassArr[1];
+
+
+            //}
+            return new Tuple<string, string>(userLogin,userPass);
+        }
+
+        public User GetUser(string login, string password) 
+        { 
+            var user = _db.Users.FirstOrDefault(u=>u.Email==login && u.Password==password);
+            return user;
+             
+        }
+
 
         public bool Create(UserModel model)
         {
@@ -107,5 +141,34 @@ namespace TaskManagerCourse.Api.Models.Services
             }
         }
 
+        public UserModel Get(int id)
+        {
+            User user = _db.Users.FirstOrDefault(u => u.Id == id);
+            return user?.ToDto(); // проверка на null, вернет null не будет пытаться вызвать ToDto().
+        }
+
+        public ClaimsIdentity GetIdentity(string username, string password)
+        {
+            User currentUser = GetUser(username, password);
+            if (currentUser != null)
+            {
+                currentUser.LastLoginDate = DateTime.Now;
+                _db.Users.Update(currentUser);
+                _db.SaveChanges();
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, currentUser.Email), // указываем, что Майл определяющее свойство
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, currentUser.Status.ToString())
+                };
+                ClaimsIdentity claimsIdentity =
+                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+                return claimsIdentity;
+            }
+
+            // если пользователя не найдено
+            return null;
+        }
     }
 }

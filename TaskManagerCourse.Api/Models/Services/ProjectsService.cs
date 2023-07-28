@@ -42,6 +42,12 @@ namespace TaskManagerCourse.Api.Models.Services
             return result;
         }
 
+        public ProjectModel Get(int id)
+        {
+            Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
+            return project?.ToDto();
+        }
+
         public bool Update(int id, ProjectModel model)
         {
             bool result = DoAction(delegate ()

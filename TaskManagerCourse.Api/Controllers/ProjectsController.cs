@@ -23,9 +23,17 @@ namespace TaskManagerCourse.Api.Controllers
             _projectsService = new ProjectsService(db);
 
         }
+        // возврат объекта по Id
+        [HttpGet("{id}")]
+        public IActionResult Get(int id) 
+        {
+            var project = _projectsService.Get(id);
+            return project == null ? NoContent() : Ok();
+
+        }
 
         [HttpGet]
-        public async Task<IEnumerable<ProjectModel>> Get() 
+        public async Task<IEnumerable<ProjectModel>> Get()
         {
             return await _db.Projects.Select(p => p.ToDto()).ToListAsync();
 
