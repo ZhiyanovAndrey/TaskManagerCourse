@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Common.Models;
@@ -9,6 +10,7 @@ using TaskManagerCourse.Api.Models.Services;
 namespace TaskManagerCourse.Api.Controllers
 {
     // api указывается сразу после http://localhost:5171/api
+    [Authorize] // требует авторизации для всех членов класса
     [Route("api/[controller]")] // атрибут указывает как мы будем обращаться с Фронта api/users название первой части от контроллера UsersController
     [ApiController]
     public class UsersController : ControllerBase
@@ -24,6 +26,7 @@ namespace TaskManagerCourse.Api.Controllers
 
         }
         // тестовый запрос строка
+        [AllowAnonymous] // не требует авторизации
         [HttpGet("test")]
         public IActionResult Test()
         {
@@ -32,6 +35,7 @@ namespace TaskManagerCourse.Api.Controllers
         }
 
         // запрос на создание User 
+        [Authorize (Roles = "Admin")]
         [HttpPost]
         public IActionResult CreateUser([FromBody] UserModel userModel) // UserModel получаем из тела запроса
         {

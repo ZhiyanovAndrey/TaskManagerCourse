@@ -29,16 +29,16 @@ namespace TaskManagerCourse.Api.Models.Services
             string userLogin = "";
             string userPass = "";
             string authHeader = request.Headers["Authorization"].ToString(); // dictionary поэтому делаем проверку по ключу
-            //if (authHeader!=null && authHeader.StartsWith("Basic)")) // базовая передача
-            //{
+            if (authHeader != null) //  && authHeader.StartsWith("Basic)" базовая передача
+            {
                 string encodedUserNamePass = authHeader.Replace("Basic ", ""); // оставляем данные только логин и пароль без Basic
                 var encoding = Encoding.GetEncoding("iso-8859-1");
                 string[] namePassArr = encoding.GetString(Convert.FromBase64String(encodedUserNamePass)).Split(":");
-                userLogin= namePassArr[0];
-                userPass= namePassArr[1];
+                userLogin = namePassArr[0];
+                userPass = namePassArr[1];
 
 
-            //}
+            }
             return new Tuple<string, string>(userLogin,userPass);
         }
 
