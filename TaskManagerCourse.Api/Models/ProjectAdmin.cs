@@ -6,7 +6,8 @@
         public int Id { get; set; }
         
         public int UserId { get; set; }
-        
+
+        // один пользователь может быть админом
         public User User { get; set; } 
 
         // много проектов у админа

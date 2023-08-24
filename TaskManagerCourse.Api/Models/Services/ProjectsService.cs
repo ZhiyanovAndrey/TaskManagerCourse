@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using TaskManager.Common.Models;
 using TaskManagerCourse.Api.Abstractions;
 using TaskManagerCourse.Api.Models.Data;
@@ -9,17 +11,17 @@ namespace TaskManagerCourse.Api.Models.Services
     {
         private readonly ApplicationContext _db;
 
-     
+
         public ProjectsService(ApplicationContext db)
         {
             _db = db;
-
+     
         }
 
         public bool Create(ProjectModel model)
         {
-          // добавим ссылку на админа
-          
+            // добавим ссылку на админа
+
             bool result = DoAction(delegate ()
             {
                 Project newproject = new Project(model);
@@ -27,7 +29,7 @@ namespace TaskManagerCourse.Api.Models.Services
                 _db.SaveChanges();
 
             });
-            return result;  
+            return result;
         }
 
         public bool Delete(int id)
@@ -42,11 +44,6 @@ namespace TaskManagerCourse.Api.Models.Services
             return result;
         }
 
-        public ProjectModel Get(int id)
-        {
-            Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
-            return project?.ToDto();
-        }
 
         public bool Update(int id, ProjectModel model)
         {
@@ -54,10 +51,10 @@ namespace TaskManagerCourse.Api.Models.Services
             {
                 Project newproject = _db.Projects.FirstOrDefault(p => p.Id == id);
                 newproject.Name = model.Name;
-                newproject.Description = model.Description; 
+                newproject.Description = model.Description;
                 newproject.Status = model.Status;
-                newproject.Photo=model.Photo;   
-                newproject.AdminId= model.AdminId;
+                newproject.Photo = model.Photo;
+                newproject.AdminId = model.AdminId;
                 _db.Projects.Update(newproject);
                 _db.SaveChanges();
 
@@ -65,7 +62,53 @@ namespace TaskManagerCourse.Api.Models.Services
             return result;
         }
 
+        public ProjectModel Get(int id)
+        {
+            Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
+            return project?.ToDto();
+        }
 
+        /// <summary>
+        /// метод используем только в том случае если user не равен admin
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<ProjectModel>> GetByUserId(int userId)
+        {
+            List<ProjectModel> result = new List<ProjectModel>();
+            var admin = _db.Projects.FirstOrDefault(p => p.AdminId == userId);
+
+            if (admin != null)
+            {
+                // получим все проекты у админа в подчинении
+                var projectForAdmin = await _db.Projects.Where(p => p.AdminId == admin.Id).Select(p => p.ToDto()).ToListAsync(); // select преобразует в projectModel
+                result.AddRange(projectForAdmin);
+            }
+            var projectForUser = await _db.Projects.Include(p => p.AllUsers).Where(p => p.AllUsers.Any(u => u.Id == userId)).ToListAsync();
+
+            return result;
+        }
+
+        public IQueryable<ProjectModel> GetAll()
+        {
+            return _db.Projects.Select(p => p.ToDto());
+
+        }
+
+        public void AddUserToProject(int id, List<int> userIds)
+        {
+            Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
+
+            foreach (var userid in userIds)
+            {
+
+                var user = _db.Users.FirstOrDefault(u => u.Id == userid);
+                project.AllUsers.Add(user);
+
+            }
+            _db.SaveChanges();
+
+        }
 
         //public bool CreateMultipleUsers([FromBody] List<UserModel> userModels) // 
         //{

@@ -24,7 +24,7 @@ namespace TaskManagerCourse.Api.Models.Services
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Tuple <string,string> GetUserLoginPassFromBasicAuth(HttpRequest request)
+        public Tuple<string, string> GetUserLoginPassFromBasicAuth(HttpRequest request)
         {
             string userLogin = "";
             string userPass = "";
@@ -39,14 +39,22 @@ namespace TaskManagerCourse.Api.Models.Services
 
 
             }
-            return new Tuple<string, string>(userLogin,userPass);
+            return new Tuple<string, string>(userLogin, userPass);
         }
 
-        public User GetUser(string login, string password) 
-        { 
-            var user = _db.Users.FirstOrDefault(u=>u.Email==login && u.Password==password);
+
+        public User GetUser(string login, string password)
+        {
+            var user = _db.Users.FirstOrDefault(u => u.Email == login && u.Password == password);
             return user;
-             
+
+        }
+
+        public User GetUser(string login)
+        {
+            var user = _db.Users.FirstOrDefault(u => u.Email == login);
+            return user;
+
         }
 
 
@@ -169,6 +177,16 @@ namespace TaskManagerCourse.Api.Models.Services
 
             // если пользователя не найдено
             return null;
+        }
+
+        public IEnumerable<UserModel> GetAllByIds(List<int> userIds)
+        {
+            foreach (var id in userIds)
+            {
+                var user = _db.Users.FirstOrDefault(u => u.Id == id).ToDto();
+                yield return user;
+            }
+
         }
     }
 }
