@@ -9,8 +9,10 @@ namespace TaskManager.Common.Models
     public class ProjectModel:CommonModel
     {
         public ProgectStatus Status { get; set; }
-
+        
         public int? AdminId { get; set; }
+
+        public Byte[]? bytes { get; set; }
 
         public List<UserModel> AllUsers { get; set; } = new List<UserModel>(); // многие ко многим с User
 

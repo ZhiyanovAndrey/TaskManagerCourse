@@ -15,7 +15,7 @@ namespace TaskManagerCourse.Api.Models.Services
         public ProjectsService(ApplicationContext db)
         {
             _db = db;
-     
+
         }
 
         public bool Create(ProjectModel model)
@@ -84,8 +84,8 @@ namespace TaskManagerCourse.Api.Models.Services
                 var projectForAdmin = await _db.Projects.Where(p => p.AdminId == admin.Id).Select(p => p.ToDto()).ToListAsync(); // select преобразует в projectModel
                 result.AddRange(projectForAdmin);
             }
-            var projectForUser = await _db.Projects.Include(p => p.AllUsers).Where(p => p.AllUsers.Any(u => u.Id == userId)).ToListAsync();
-
+            var projectForUser = await _db.Projects.Include(p => p.AllUsers).Where(p => p.AllUsers.Any(u => u.Id == userId)).Select(p => p.ToDto()).ToListAsync();
+            result.AddRange(projectForUser);
             return result;
         }
 
@@ -104,6 +104,25 @@ namespace TaskManagerCourse.Api.Models.Services
 
                 var user = _db.Users.FirstOrDefault(u => u.Id == userid);
                 project.AllUsers.Add(user);
+
+            }
+            _db.SaveChanges();
+
+        }
+
+        public void RemoveUserToProject(int id, List<int> userIds)
+        {
+            Project project = _db.Projects.Include(p => p.AllUsers).FirstOrDefault(p => p.Id == id); // возвращаем из базы данных проект вместе со всеми Users
+
+            foreach (var userid in userIds)
+            {
+
+                var user = _db.Users.FirstOrDefault(u => u.Id == userid);
+                if (project.AllUsers.Contains(user))
+                {
+                    project.AllUsers.Remove(user);
+                }
+
 
             }
             _db.SaveChanges();

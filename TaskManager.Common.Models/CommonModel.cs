@@ -16,6 +16,6 @@ namespace TaskManager.Common.Models
 
         public DateTime CreationDate { get; set; }
 
-        public byte[] Photo { get; set; }
+        public byte[]? Photo { get; set; }
     }
 }

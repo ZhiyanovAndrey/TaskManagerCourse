@@ -3,7 +3,7 @@
     public enum ProgectStatus
     {
         InProgres,
-        Suspended,
+        Suspended, // приостановлен
         Complited
     }
 }

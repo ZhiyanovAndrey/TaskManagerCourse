@@ -35,8 +35,8 @@ namespace TaskManagerCourse.Api.Models
                 Id=this.Id, 
                 Name=this.Name,
                 Description=this.Description,
-                Photo=this.Photo,
-                CreationDate=this.CreationDate, 
+                Photo = this.Photo,
+                CreationDate = this.CreationDate, 
                 AdminId=this.AdminId,  
                 Status=this.Status
                 
