@@ -12,8 +12,6 @@ namespace TaskManager.Common.Models
         
         public int? AdminId { get; set; }
 
-        public Byte[]? bytes { get; set; }
-
         public List<UserModel> AllUsers { get; set; } = new List<UserModel>(); // многие ко многим с User
 
         public List<DeskModel> AllDecks { get; set; } = new List<DeskModel>(); // приватная доска для пользователя

@@ -34,7 +34,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasIndex("ProjectsId");
 
-                    b.ToTable("ProjectUser");
+                    b.ToTable("ProjectUser", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.Desk", b =>
@@ -79,7 +79,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Desks");
+                    b.ToTable("Desks", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.Project", b =>
@@ -115,7 +115,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasIndex("AdminId");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.ProjectAdmin", b =>
@@ -133,7 +133,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProjectAdmins");
+                    b.ToTable("ProjectAdmins", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.Task", b =>
@@ -188,7 +188,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasIndex("DeskId");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("Tasks", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.User", b =>
@@ -203,8 +203,8 @@ namespace TaskManagerCourse.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("LastLoginDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("LastLoginDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -219,10 +219,11 @@ namespace TaskManagerCourse.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<byte[]>("Photo")
+                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("date");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -233,7 +234,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("ProjectUser", b =>
