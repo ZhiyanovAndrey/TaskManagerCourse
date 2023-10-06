@@ -34,7 +34,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasIndex("ProjectsId");
 
-                    b.ToTable("ProjectUser", (string)null);
+                    b.ToTable("ProjectUser");
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.Desk", b =>
@@ -64,7 +64,6 @@ namespace TaskManagerCourse.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<int>("ProjectId")
@@ -79,7 +78,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Desks", (string)null);
+                    b.ToTable("Desks");
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.Project", b =>
@@ -105,7 +104,6 @@ namespace TaskManagerCourse.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<int>("Status")
@@ -115,7 +113,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasIndex("AdminId");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.ProjectAdmin", b =>
@@ -133,7 +131,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProjectAdmins", (string)null);
+                    b.ToTable("ProjectAdmins");
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.Task", b =>
@@ -176,7 +174,6 @@ namespace TaskManagerCourse.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<DateTime>("StartDate")
@@ -188,7 +185,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasIndex("DeskId");
 
-                    b.ToTable("Tasks", (string)null);
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.User", b =>
@@ -203,8 +200,8 @@ namespace TaskManagerCourse.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("LastLoginDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime?>("LastLoginDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -219,11 +216,10 @@ namespace TaskManagerCourse.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("date");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -234,7 +230,7 @@ namespace TaskManagerCourse.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ProjectUser", b =>

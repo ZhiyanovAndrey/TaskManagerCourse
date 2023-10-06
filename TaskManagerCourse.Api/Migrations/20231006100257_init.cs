@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TaskManagerCourse.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class inisial : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,9 +23,9 @@ namespace TaskManagerCourse.Api.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
                     Phone = table.Column<string>(type: "text", nullable: false),
-                    RegistrationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastLoginDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Photo = table.Column<byte[]>(type: "bytea", nullable: false),
+                    RegistrationDate = table.Column<DateTime>(type: "date", nullable: false),
+                    LastLoginDate = table.Column<DateTime>(type: "date", nullable: true),
+                    Photo = table.Column<byte[]>(type: "bytea", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -58,12 +58,12 @@ namespace TaskManagerCourse.Api.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Status = table.Column<int>(type: "integer", nullable: false),
                     AdminId = table.Column<int>(type: "integer", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Photo = table.Column<byte[]>(type: "bytea", nullable: false)
+                    Photo = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,7 +88,7 @@ namespace TaskManagerCourse.Api.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Photo = table.Column<byte[]>(type: "bytea", nullable: false)
+                    Photo = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -147,7 +147,7 @@ namespace TaskManagerCourse.Api.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Photo = table.Column<byte[]>(type: "bytea", nullable: false)
+                    Photo = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {

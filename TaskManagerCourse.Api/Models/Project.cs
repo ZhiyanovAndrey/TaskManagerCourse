@@ -10,8 +10,6 @@ namespace TaskManagerCourse.Api.Models
 
         public ProjectAdmin Admin { get; set; }
 
-        public Byte[]? bytes { get; set; }
-
         public List<User> AllUsers { get; set; } = new List<User>(); // многие ко многим с User
 
         public List<Desk> AllDecks { get; set; } = new List<Desk>(); // приватная доска для пользователя

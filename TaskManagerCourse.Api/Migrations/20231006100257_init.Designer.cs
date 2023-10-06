@@ -12,8 +12,8 @@ using TaskManagerCourse.Api.Models.Data;
 namespace TaskManagerCourse.Api.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230626140611_inisial")]
-    partial class inisial
+    [Migration("20231006100257_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,7 +67,6 @@ namespace TaskManagerCourse.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<int>("ProjectId")
@@ -108,7 +107,6 @@ namespace TaskManagerCourse.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<int>("Status")
@@ -179,7 +177,6 @@ namespace TaskManagerCourse.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<DateTime>("StartDate")
@@ -206,8 +203,8 @@ namespace TaskManagerCourse.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("LastLoginDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime?>("LastLoginDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -222,11 +219,10 @@ namespace TaskManagerCourse.Api.Migrations
                         .HasColumnType("text");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("date");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");

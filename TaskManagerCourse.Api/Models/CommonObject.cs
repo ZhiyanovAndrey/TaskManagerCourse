@@ -10,7 +10,7 @@ namespace TaskManagerCourse.Api.Models
 
         public DateTime CreationDate { get; set; }
 
-        public byte[] Photo { get; set; }
+        public byte[]? Photo { get; set; }
 
         // конструктор задает CreationDate
 
