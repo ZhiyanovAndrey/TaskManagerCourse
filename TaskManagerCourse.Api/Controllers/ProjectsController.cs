@@ -50,7 +50,7 @@ namespace TaskManagerCourse.Api.Controllers
         {
 
             var project = _projectsService.Get(id);
-            return project == null ? NoContent() : Ok();
+            return project == null ? NoContent() : Ok(project);
 
         }
 
@@ -63,7 +63,7 @@ namespace TaskManagerCourse.Api.Controllers
             if (projectModel != null)
             {
                 var user = _usersService.GetUser(HttpContext.User.Identity.Name);
-                // не получает пользователя
+
                 if (user != null)
                 {
                     if (user.Status == UserStatus.Admin || user.Status == UserStatus.Editor)
@@ -88,7 +88,9 @@ namespace TaskManagerCourse.Api.Controllers
 
         }
 
-        [HttpPatch]
+
+
+        [HttpPatch("{id}")]
         public IActionResult Update(int id, [FromBody] ProjectModel projectModel)
         {
             if (projectModel != null)
@@ -111,7 +113,7 @@ namespace TaskManagerCourse.Api.Controllers
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             bool result = _projectsService.Delete(id);
@@ -119,6 +121,7 @@ namespace TaskManagerCourse.Api.Controllers
 
         }
 
+        // добавление пользователя в проект
         [HttpPatch("{id}/users")]
         public IActionResult AddUsersToProject(int id, [FromBody] List<int> userIds)
         {
@@ -140,7 +143,7 @@ namespace TaskManagerCourse.Api.Controllers
             }
             return BadRequest();
         }
-
+    // удаление пользователя из проекта
         [HttpPatch("{id}/users/remove")]
         public IActionResult RemoveUsersToProject(int id, [FromBody] List<int> userIds)
         {

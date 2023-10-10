@@ -49,23 +49,32 @@ namespace TaskManagerCourse.Api.Models.Services
         {
             bool result = DoAction(delegate ()
             {
-                Project newproject = _db.Projects.FirstOrDefault(p => p.Id == id);
-                newproject.Name = model.Name;
-                newproject.Description = model.Description;
-                newproject.Status = model.Status;
-                newproject.Photo = model.Photo;
-                newproject.AdminId = model.AdminId;
-                _db.Projects.Update(newproject);
+                Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
+                project.Name = model.Name;
+                project.Description = model.Description;
+                project.Status = model.Status;
+                project.Photo = model.Photo;
+                project.AdminId = model.AdminId;
+                _db.Projects.Update(project);
                 _db.SaveChanges();
 
             });
             return result;
         }
-
+        /// <summary>
+        /// возвращает обьект по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ProjectModel Get(int id)
         {
-            Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
-            return project?.ToDto();
+            Project project = _db.Projects.Include(p => p.AllUsers).FirstOrDefault(p => p.Id == id);
+            var projectModel = project?.ToDto();
+            if (projectModel!=null)
+            {
+                projectModel.AllUsersIds = project.AllUsers.Select(u => u.Id).ToList(); // вытаскиваем всех Users и с помощью select отбираем только  id пользователя
+            }
+            return projectModel; // project?.ToDto(); // при возврате всех данных не только ID урок 4.4
         }
 
         /// <summary>

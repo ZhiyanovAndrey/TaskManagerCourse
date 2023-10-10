@@ -73,7 +73,7 @@ namespace TaskManagerCourse.Api.Models
         {
             return new UserModel()
             {
-                Id = this.Id,
+                Id = this.Id, // через This т.к в usermodel тоже id
                 Surname = this.Surname,
                 Name = this.Name,
                 Email = this.Email,

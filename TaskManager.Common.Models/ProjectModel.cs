@@ -12,9 +12,11 @@ namespace TaskManager.Common.Models
         
         public int? AdminId { get; set; }
 
-        public List<UserModel> AllUsers { get; set; } = new List<UserModel>(); // многие ко многим с User
+        public List<int> AllUsersIds { get; set; } // многие ко многим с User
+                                                   //public List<UserModel> AllUsers { get; set; } = new List<UserModel>(); //изменили что бы отображать только id при тестировании API,
+                                                   //для отображения всех данных вернемся урок 4.4
 
-        public List<DeskModel> AllDecks { get; set; } = new List<DeskModel>(); // приватная доска для пользователя
-
+        public List<int> AllDecksIds { get; set; }  // приватная доска для пользователя
+         //public List<DeskModel> AllDecks { get; set; } = new List<DeskModel>();
     }
 }

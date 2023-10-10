@@ -46,7 +46,7 @@ namespace TaskManager.Common.Models
             Password = pass;
             Phone = phone;
             Status = status;
-            Photo = photo;
+            //Photo = photo; // фото от сюда передаваться не будет
             RegistrationDate = DateTime.Now;
 
         }
