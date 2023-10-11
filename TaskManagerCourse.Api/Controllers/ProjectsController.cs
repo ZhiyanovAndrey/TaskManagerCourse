@@ -13,6 +13,7 @@ namespace TaskManagerCourse.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProjectsController : ControllerBase
     {
 
@@ -30,18 +31,22 @@ namespace TaskManagerCourse.Api.Controllers
 
         // убираем [Authorize(Roles = "Admin")]  и делаем проверку с пом  if (user.Status == UserStatus.Admin....
         [HttpGet]
-        public async Task<IEnumerable<ProjectModel>> Get()
+        public async Task<IEnumerable<CommonModel>> Get()
         {
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
-            if (user.Status == UserStatus.Admin)
-            {
+            //if (user != null) // не работает проверка вылетает исключение
+            //{
+                if (user.Status == UserStatus.Admin)
+                {
 
-                return await _projectsService.GetAll().ToListAsync();
-            }
-            else
-            {
-                return await _projectsService.GetByUserId(user.Id);
-            }
+                    return await _projectsService.GetAll().ToListAsync();
+                }
+                else
+                {
+                    return await _projectsService.GetByUserId(user.Id);
+                }
+            //}
+            //return Unauthorized();
         }
 
         // возврат объекта по Id
@@ -129,21 +134,21 @@ namespace TaskManagerCourse.Api.Controllers
             {
                 var user = _usersService.GetUser(HttpContext.User.Identity.Name);
 
-                if (user!=null)
+                if (user != null)
                 {
 
-                if (user.Status == UserStatus.Admin || user.Status == UserStatus.Editor)
-                {
-                    _projectsService.AddUserToProject(id, userIds);
-                        return Ok();    
-          
-                }
-                return Unauthorized();
+                    if (user.Status == UserStatus.Admin || user.Status == UserStatus.Editor)
+                    {
+                        _projectsService.AddUserToProject(id, userIds);
+                        return Ok();
+
+                    }
+                    return Unauthorized();
                 }
             }
             return BadRequest();
         }
-    // удаление пользователя из проекта
+        // удаление пользователя из проекта
         [HttpPatch("{id}/users/remove")]
         public IActionResult RemoveUsersToProject(int id, [FromBody] List<int> userIds)
         {

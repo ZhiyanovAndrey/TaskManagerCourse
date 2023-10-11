@@ -98,9 +98,9 @@ namespace TaskManagerCourse.Api.Models.Services
             return result;
         }
 
-        public IQueryable<ProjectModel> GetAll()
+        public IQueryable<CommonModel> GetAll()
         {
-            return _db.Projects.Select(p => p.ToDto());
+            return _db.Projects.Select(p => p.ToDto() as CommonModel);
 
         }
 
