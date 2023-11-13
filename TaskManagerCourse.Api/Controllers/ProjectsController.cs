@@ -31,7 +31,7 @@ namespace TaskManagerCourse.Api.Controllers
 
         // убираем [Authorize(Roles = "Admin")]  и делаем проверку с пом  if (user.Status == UserStatus.Admin....
         [HttpGet]
-        public async Task<IEnumerable<CommonModel>> Get()
+        public async Task<IEnumerable<CommonModel>> Get() // асинхронный метод получения CommonMode (вместо ProjectModel сокращаем вес данных выведеных на экран)
         {
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
             //if (user != null) // не работает проверка вылетает исключение

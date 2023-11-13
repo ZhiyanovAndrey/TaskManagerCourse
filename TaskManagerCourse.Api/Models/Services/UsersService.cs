@@ -7,7 +7,7 @@ using TaskManagerCourse.Api.Models.Data;
 
 namespace TaskManagerCourse.Api.Models.Services
 {
-    public class UsersService : ICommonServiсe<UserModel>
+    public class UsersService : AbstractionService, ICommonServiсe<UserModel> 
     {
         private readonly ApplicationContext _db;
 
