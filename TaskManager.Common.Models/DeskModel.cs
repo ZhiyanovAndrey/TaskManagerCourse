@@ -12,7 +12,7 @@ namespace TaskManager.Common.Models
 
         public bool isPrivate { get; set; } 
 
-        public string[] Columns { get; set; } // хранение переделаем масивом вместо json формате
+        public string[] Columns { get; set; } // в БД хранится в виде одной строки, в Desk переделаем в масивом вместо json формате
 
         //  Доска принадлежит Admin, он  может быть только один
         public int AdminId { get; set; }
@@ -24,6 +24,6 @@ namespace TaskManager.Common.Models
         
 
         // задача принадлежит доске
-        public List<TaskModel> Tasks { get; set; } = new List<TaskModel>();
+        public List<int> TasksIds { get; set; } // решили возврашать список id вместо public List<TaskModel> TasksIds { get; set; } = new List<TaskModel>();
     }
 }

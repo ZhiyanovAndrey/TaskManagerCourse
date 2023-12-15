@@ -260,7 +260,7 @@ namespace TaskManagerCourse.Api.Migrations
                         .IsRequired();
 
                     b.HasOne("TaskManagerCourse.Api.Models.Project", "Project")
-                        .WithMany("AllDecks")
+                        .WithMany("AllDesks")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -314,7 +314,7 @@ namespace TaskManagerCourse.Api.Migrations
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.Project", b =>
                 {
-                    b.Navigation("AllDecks");
+                    b.Navigation("AllDesks");
                 });
 
             modelBuilder.Entity("TaskManagerCourse.Api.Models.ProjectAdmin", b =>

@@ -16,7 +16,7 @@ namespace TaskManager.Common.Models
                                                    //public List<UserModel> AllUsers { get; set; } = new List<UserModel>(); //изменили что бы отображать только id при тестировании API,
                                                    //для отображения всех данных вернемся урок 4.4
 
-        public List<int> AllDecksIds { get; set; }  // приватная доска для пользователя
-         //public List<DeskModel> AllDecks { get; set; } = new List<DeskModel>();
+        public List<int> AllDesksIds { get; set; }  // приватная доска для пользователя
+         //public List<DeskModel> AllDesks { get; set; } = new List<DeskModel>();
     }
 }

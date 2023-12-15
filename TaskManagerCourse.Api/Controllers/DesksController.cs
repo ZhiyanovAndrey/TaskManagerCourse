@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Common.Models;
 using TaskManagerCourse.Api.Models.Data;
 using TaskManagerCourse.Api.Models.Services;
 
@@ -23,35 +24,39 @@ namespace TaskManagerCourse.Api.Controllers
 
 
         }
-        // GET: api/<DesksController>
+        // Получение всех Desks которыми владеет пользователь
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<CommonModel>> GetDeskForCurrentUser()
         {
-            return new string[] { "value1", "value2" };
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            
         }
 
         // GET api/<DesksController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+           
+        }
+        // получение Desck по id проекта
+        [HttpGet("{id}")]
+        public IActionResult GetProjectDesks(int id)
+        {
+           
         }
 
-        // POST api/<DesksController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Create([FromBody] string value)
         {
         }
 
-        // PUT api/<DesksController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPatch("{id}")]
+        public IActionResult Update(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<DesksController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
         }
     }

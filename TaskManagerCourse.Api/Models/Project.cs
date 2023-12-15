@@ -12,7 +12,7 @@ namespace TaskManagerCourse.Api.Models
 
         public List<User> AllUsers { get; set; } = new List<User>(); // многие ко многим с User
 
-        public List<Desk> AllDecks { get; set; } = new List<Desk>(); // приватная доска для пользователя
+        public List<Desk> AllDesks { get; set; } = new List<Desk>(); // приватная доска для пользователя
 
         public ProgectStatus Status { get; set; }
 
@@ -27,19 +27,20 @@ namespace TaskManagerCourse.Api.Models
         }
 
 
-        // применим патерн DTO
+
+
         public ProjectModel ToDto()
         {
             return new ProjectModel()
             {
-                Id=this.Id, 
-                Name=this.Name,
-                Description=this.Description,
+                Id = this.Id,
+                Name = this.Name,
+                Description = this.Description,
                 Photo = this.Photo,
-                CreationDate = this.CreationDate, 
-                AdminId=this.AdminId,  
-                Status=this.Status
-                
+                CreationDate = this.CreationDate,
+                AdminId = this.AdminId,
+                Status = this.Status
+
             };
         }
     }

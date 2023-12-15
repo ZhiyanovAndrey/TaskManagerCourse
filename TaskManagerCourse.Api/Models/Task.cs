@@ -10,7 +10,7 @@
 
         public byte[] File { get; set; }
 
-// одной доске принадлежит много задач
+        // одной доске принадлежит много задач, покажем БД что это ключ на Desk ниже
         public int DeskId { get; set; }
         public Desk Desk { get; set; }
 

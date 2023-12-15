@@ -68,11 +68,15 @@ namespace TaskManagerCourse.Api.Models.Services
         /// <returns></returns>
         public ProjectModel Get(int id)
         {
-            Project project = _db.Projects.Include(p => p.AllUsers).FirstOrDefault(p => p.Id == id);
+            // по id мы получаем расширенное представление модели поэтому включаем Users и Desks
+            Project project = _db.Projects.Include(p => p.AllUsers).Include(p => p.AllDesks).FirstOrDefault(p => p.Id == id);
+        
             var projectModel = project?.ToDto();
-            if (projectModel!=null)
+            if (projectModel != null)
             {
-                projectModel.AllUsersIds = project.AllUsers.Select(u => u.Id).ToList(); // вытаскиваем всех Users и с помощью select отбираем только  id пользователя
+                // вытаскиваем ALLUsers из Project с помощью select отбираем только  id пользователя помещаем в projectModel
+                projectModel.AllUsersIds = project.AllUsers.Select(u => u.Id).ToList(); 
+                projectModel.AllDesksIds = project.AllDesks.Select(u => u.Id).ToList();
             }
             return projectModel; // project?.ToDto(); // при возврате всех данных не только ID урок 4.4
         }
@@ -100,19 +104,21 @@ namespace TaskManagerCourse.Api.Models.Services
 
         public IQueryable<CommonModel> GetAll()
         {
+            // получаем краткое представление модели поэтому только поля из CommonModel
             return _db.Projects.Select(p => p.ToDto() as CommonModel);
 
         }
 
         public void AddUserToProject(int id, List<int> userIds)
         {
-            Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
-
+            Project project = _db.Projects.FirstOrDefault(u => u.Id == id);
             foreach (var userid in userIds)
             {
 
                 var user = _db.Users.FirstOrDefault(u => u.Id == userid);
-                project.AllUsers.Add(user);
+
+                if (project.AllUsers.Contains(user) == false) project.AllUsers.Add(user); // добавляем User если БД не содержит его
+
 
             }
             _db.SaveChanges();
@@ -129,7 +135,7 @@ namespace TaskManagerCourse.Api.Models.Services
                 var user = _db.Users.FirstOrDefault(u => u.Id == userid);
                 if (project.AllUsers.Contains(user))
                 {
-                    project.AllUsers.Remove(user);
+                    project.AllUsers.Remove(user); // удаляем User если БД  содержит его
                 }
 
 

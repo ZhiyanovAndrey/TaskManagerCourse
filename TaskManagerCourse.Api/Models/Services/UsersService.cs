@@ -183,7 +183,7 @@ namespace TaskManagerCourse.Api.Models.Services
         {
             foreach (var id in userIds)
             {
-                var user = _db.Users.FirstOrDefault(u => u.Id == id).ToDto();
+                var user = _db.Users.FirstOrDefault(u => u.Id == id).ToDto(); // перезаписываем User в todto
                 yield return user;
             }
 
