@@ -50,6 +50,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 }
 );
 builder.Services.AddControllersWithViews(); 
+builder.Services.AddControllers().AddNewtonsoftJson(); 
 
 
 var app = builder.Build();

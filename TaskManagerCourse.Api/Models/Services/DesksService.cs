@@ -32,7 +32,14 @@ namespace TaskManagerCourse.Api.Models.Services
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            bool result = DoAction(delegate ()
+            {
+                Desk newDeck = _db.Desks.FirstOrDefault(d=>d.Id==id);
+                _db.Desks.Remove(newDeck);
+                _db.SaveChanges();
+
+            });
+            return result;
         }
 
         public DeskModel Get(int id)
@@ -48,7 +55,21 @@ namespace TaskManagerCourse.Api.Models.Services
 
         public bool Update(int id, DeskModel model)
         {
-            throw new NotImplementedException();
+            bool result = DoAction(delegate ()
+            {
+                Desk desk = _db.Desks.FirstOrDefault(d => d.Id == id);
+                desk.Name = model.Name;
+                desk.Description = model.Description;
+                desk.Photo = model.Photo;
+                desk.AdminId = model.AdminId;
+                desk.isPrivate = model.isPrivate;
+                desk.ProjectId = model.ProjectId;
+                desk.Columns = "[" + string.Join(",", model.Columns) + "]";
+                _db.Desks.Update(desk);
+                _db.SaveChanges();
+
+            });
+            return result;
         }
 
         private bool DoAction(Action action)
