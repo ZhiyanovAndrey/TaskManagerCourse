@@ -1,4 +1,5 @@
 ﻿using TaskManager.Common.Models;
+using Newtonsoft.Json;
 
 namespace TaskManagerCourse.Api.Models
 {
@@ -36,7 +37,8 @@ namespace TaskManagerCourse.Api.Models
 
             if (deskModel.Columns.Any() == null) // если колонка содержит хоть что то
             {
-                Columns = "[" + string.Join(",", deskModel.Columns) + "]";
+                Columns = JsonConvert.SerializeObject(deskModel.Columns);// принимаем из контроллера колонки преобразуем в строку
+                                                                         // Columns = "[" + string.Join(",", deskModel.Columns) + "]";
             }
 
         }
@@ -53,7 +55,10 @@ namespace TaskManagerCourse.Api.Models
                 AdminId = this.AdminId,
                 isPrivate = this.isPrivate,
                 ProjectId = this.ProjectId,
-                Columns = this.Columns?.Replace("[", "").Replace("]", "").Split(",")
+                Columns = JsonConvert.DeserializeObject<string[]>(this.Columns) // из JSON получим массив строк
+
+                // первоначальный вариант
+                // this.Columns?.Replace("[", "").Replace("]", "").Split(",")
                 // Columns это массив string  делаем Split или JSON
                 // массив хранится в квадратных скобках меняем их на пустоту
             };

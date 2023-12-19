@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using TaskManager.Common.Models;
 using TaskManagerCourse.Api.Abstractions;
 using TaskManagerCourse.Api.Models.Data;
@@ -64,13 +65,23 @@ namespace TaskManagerCourse.Api.Models.Services
                 desk.AdminId = model.AdminId;
                 desk.isPrivate = model.isPrivate;
                 desk.ProjectId = model.ProjectId;
-                desk.Columns = "[" + string.Join(",", model.Columns) + "]";
+                desk.Columns = JsonConvert.SerializeObject(model.Columns); // "[" + string.Join(",", model.Columns) + "]";
+                // из массива строк получаем формат JSON
                 _db.Desks.Update(desk);
                 _db.SaveChanges();
 
             });
             return result;
         }
+
+
+        public IQueryable<CommonModel> GetAll()
+        {
+            // получаем краткое представление модели поэтому только поля из CommonModel
+            return _db.Desks.Select(d => d.ToDto() as CommonModel);
+
+        }
+
 
         private bool DoAction(Action action)
         {
