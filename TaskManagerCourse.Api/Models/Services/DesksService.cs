@@ -35,7 +35,7 @@ namespace TaskManagerCourse.Api.Models.Services
         {
             bool result = DoAction(delegate ()
             {
-                Desk newDeck = _db.Desks.FirstOrDefault(d=>d.Id==id);
+                Desk newDeck = _db.Desks.FirstOrDefault(d => d.Id == id);
                 _db.Desks.Remove(newDeck);
                 _db.SaveChanges();
 
@@ -82,6 +82,13 @@ namespace TaskManagerCourse.Api.Models.Services
 
         }
 
+        public IQueryable<CommonModel> GetGetProjectDesksAll(int projectId, int userId)
+        {
+            // если пользователь админ и проект 
+            return _db.Desks.Where(d => (d.Id == projectId && 
+            d.AdminId == userId || d.isPrivate == false)).Select(d => d.ToDto() as CommonModel);
+
+        }
 
         private bool DoAction(Action action)
         {
