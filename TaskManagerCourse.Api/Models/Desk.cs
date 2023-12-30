@@ -7,7 +7,7 @@ namespace TaskManagerCourse.Api.Models
     {
         public int Id { get; set; }
 
-        public bool isPrivate { get; set; }
+        public bool isPrivate { get; set; } // доска открыта для изменений
 
         public string Columns { get; set; } // хранение в json формате
 

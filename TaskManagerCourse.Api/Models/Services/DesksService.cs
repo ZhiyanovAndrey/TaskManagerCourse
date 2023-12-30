@@ -75,16 +75,17 @@ namespace TaskManagerCourse.Api.Models.Services
         }
 
 
-        public IQueryable<CommonModel> GetAll()
+        public IQueryable<CommonModel> GetAll(int userid)
         {
             // получаем краткое представление модели поэтому только поля из CommonModel
-            return _db.Desks.Select(d => d.ToDto() as CommonModel);
+            // userid для того что бы админ смог увидеть все доски
+            return _db.Desks.Where(d=>d.AdminId==userid).Select(d => d.ToDto() as CommonModel);
 
         }
 
-        public IQueryable<CommonModel> GetGetProjectDesksAll(int projectId, int userId)
+        public IQueryable<CommonModel> GetProjectDesks(int projectId, int userId)
         {
-            // если пользователь админ и проект 
+            // доска должна принадлежать проекту по ID и  пользователь должен является админ или доска должна быть не private
             return _db.Desks.Where(d => (d.Id == projectId && 
             d.AdminId == userId || d.isPrivate == false)).Select(d => d.ToDto() as CommonModel);
 
