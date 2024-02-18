@@ -25,5 +25,6 @@ namespace TaskManager.Common.Models
 
         // задача принадлежит доске
         public List<int> TasksIds { get; set; } // решили возврашать список id вместо public List<TaskModel> TasksIds { get; set; } = new List<TaskModel>();
+        // требует наличия, а в лекции говорит что только для передачи нам обратно
     }
 }

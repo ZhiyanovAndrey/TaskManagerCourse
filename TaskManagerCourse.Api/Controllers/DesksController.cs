@@ -48,18 +48,18 @@ namespace TaskManagerCourse.Api.Controllers
 
             return desk == null ? NotFound() : Ok(desk);
         }
-        // получение Desck по id проекта
-        [HttpGet("{project/projectId}")]
-        public IActionResult GetProjectDesks(int projectId)
-        {
-            var user = _usersService.GetUser(HttpContext.User.Identity.Name); // получение пользователя
-            if (user != null)
-            {
-                var desks = _desksService.GetProjectDesks(projectId, user.Id).ToListAsync();
-                return Ok(desks);
-            }
-            return Array.Empty<CommonModel>();
-        }
+        //// получение Desck по id проекта
+        //[HttpGet("{project/projectId}")] // исключение поле не может быть пустым
+        //public async Task<IEnumerable<CommonModel>> GetProjectDesks(int projectId)
+        //{
+        //    var user = _usersService.GetUser(HttpContext.User.Identity.Name); // получение пользователя
+        //    if (user != null)
+        //    {
+        //        return await _desksService.GetProjectDesks(projectId, user.Id).ToListAsync();
+               
+        //    }
+        //    return Array.Empty<CommonModel>();
+        //}
 
         [HttpPost]
         public IActionResult Create([FromBody] DeskModel deskmodel)
