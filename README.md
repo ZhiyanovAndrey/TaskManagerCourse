@@ -5,5 +5,6 @@
     C#
     EntityFramework
     PostgreSQL
-    Swagger
+    Аутентификация с помощью JWT-токенa
+   
 
