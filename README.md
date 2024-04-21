@@ -2,8 +2,9 @@ REST API для клиент-серверного приложения с исп
 
 Стек Технологий:
 
-- C# .Net Core 7.0
-- EntityFramework
-- PostgreSQL
-- Аутентификация с помощью JWT-токенa
+- C# .Net Core 7.0;
+- ASP.NET Core;
+- Entity Framework;
+- PostgreSQL;
+- Аутентификация с помощью JWT-токенa.
 
